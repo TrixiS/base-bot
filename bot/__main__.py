@@ -12,7 +12,7 @@ logging.basicConfig(
 )
 
 bot = Bot()
-cogs = ["bot.cogs.sqlite"]
+cogs = ["bot.cogs.orm"]
 
 for cog in cogs:
     bot.load_extension(cog)
