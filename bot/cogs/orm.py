@@ -4,7 +4,7 @@ from tortoise import Tortoise
 from .base_cog import BaseCog
 
 
-class SqliteCog(BaseCog):
+class OrmCog(BaseCog):
     def __init__(self, *args):
         super().__init__(*args)
         self.tortoise_inited = False
@@ -30,4 +30,4 @@ class SqliteCog(BaseCog):
 
 
 def setup(bot):
-    bot.add_cog(SqliteCog(bot))
+    bot.add_cog(OrmCog(bot))
