@@ -12,7 +12,7 @@ logging.basicConfig(
 )
 
 bot = Bot()
-cogs = ["bot.cogs.orm"]
+cogs = ["bot.cogs.orm", "bot.cogs.test"]
 
 for cog in cogs:
     bot.load_extension(cog)
