@@ -11,6 +11,6 @@ class BotContext(commands.Context):
         self.bot: bot.Bot
         self.message: discord.Message
 
-    async def answer(self, *args, **kwargs):
+    async def answer(self, *args, **kwargs) -> discord.Message:
         ref = self.message.to_reference(fail_if_not_exists=False)
-        await self.send(*args, **kwargs, reference=ref, mention_author=True)
+        return await self.send(*args, **kwargs, reference=ref, mention_author=True)
