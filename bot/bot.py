@@ -1,5 +1,6 @@
+import logging
+
 from typing import List
-from pathlib import Path
 
 import discord
 
@@ -15,6 +16,7 @@ class Bot(commands.AutoShardedBot):
         super().__init__(
             command_prefix=get_command_prefix, intents=discord.Intents.all()
         )
+        self.logger = logging.getLogger("bot")
 
     @property
     def config(self) -> config:
