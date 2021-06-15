@@ -3,7 +3,7 @@ from pathlib import Path
 # Токен бота из https://discord.com/developers
 bot_token: str = ""
 
-# Прекфиксы команд бота
+# Префиксы команд бота
 command_prefixes: list = ["!", "!!"]
 
 
