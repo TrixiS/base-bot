@@ -6,8 +6,9 @@ Windows: python, pip
 # Discord
 1. Создайте приложение https://discord.com/developers
 2. Создайте бота (вкладка "Bot") в этом приложении
-3. Включите вот эти галочки -> https://imgur.com/a/lnPNolw
-4. Скопируйте токен бота
+3. Включите вот эти галочки -> https://i.imgur.com/U9SJOvR.png
+4. Пригласите бота на сервер через ссылку (галочки обязательны) -> https://i.imgur.com/Act9cOq.png
+5. Скопируйте токен бота
 
 # Установка и запуск
 1. Установите Python3.8+ https://python.org (галочка "Add to PATH" обязательна)
@@ -15,5 +16,5 @@ Windows: python, pip
 3. Введите команды в терминал:
    1. cd <путь до директории с этим файлом>
    2. python generate.py
-4. Заполните файл `src/config.py` своими данными
+4. Заполните файл `bot/config.py` своими данными
 5. Запустите start.bat

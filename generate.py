@@ -1,3 +1,5 @@
+import platform
+
 from pathlib import Path
 
 root_path = Path(__file__).parent
@@ -20,15 +22,22 @@ def generate_config():
 
 
 def generate_start():
-    start_bat_path = root_path / "start.bat"
-    start_script = f"""cd \"{root_path.absolute()}\"
-    pip install wheel -r requirements.txt
-    python -m bot
-    """
+    if platform.system() == "Windows":
+        start_script_path = root_path / "start.bat"
+        start_script = f"""cd \"{root_path.absolute()}\"
+        pip install wheel -r requirements.txt --quiet
+        python -m bot
+        """
+    else:
+        start_script_path = root_path / "start.sh"
+        start_script = f"""cd \"{root_path.absolute()}\"
+        python3 -m "pip" install -U wheel -r requirements.txt --quiet
+        python3 -m bot
+        """
 
-    start_bat_path.touch()
-    start_bat_path.write_text("\n".join(map(str.strip, start_script.splitlines())))
-    print(f"Скрипт старта успешно создан -> {start_bat_path.resolve()}")
+    start_script_path.touch()
+    start_script_path.write_text("\n".join(map(str.strip, start_script.splitlines())))
+    print(f"Скрипт старта успешно создан -> {start_script_path.resolve()}")
 
 
 generate_config()
