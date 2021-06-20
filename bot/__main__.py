@@ -12,6 +12,7 @@ logging.basicConfig(
 )
 
 bot = Bot()
+
 cogs = [
     "bot.cogs.error_handler",
     "bot.cogs.orm",
