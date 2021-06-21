@@ -10,8 +10,7 @@ def generate_config():
     config_example_path = root_path / "bot/config_example.py"
 
     if not config_example_path.exists():
-        print("Не удалось найти файл шаблона конфига.")
-        exit(0)
+        return print("Не удалось найти файл шаблона конфига.")
 
     if not config_path.exists():
         example_text = config_example_path.read_text("utf-8")
@@ -42,3 +41,5 @@ def generate_start():
 
 generate_config()
 generate_start()
+
+input("Нажмите любую клавишу...")
