@@ -2,7 +2,7 @@ import traceback
 
 from discord.ext import commands
 
-from .base_cog import BaseCog
+from .utils.base_cog import BaseCog
 from ..context import BotContext
 
 

@@ -1,5 +1,6 @@
 from bot import root_path
 
+
 # Токен бота из https://discord.com/developers
 bot_token: str = ""
 
