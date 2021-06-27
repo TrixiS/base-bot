@@ -1,8 +1,10 @@
+import os
 import platform
 
 from pathlib import Path
 
 root_path = Path(__file__).parent
+system = platform.system()
 
 
 def generate_config():
@@ -21,7 +23,7 @@ def generate_config():
 
 
 def generate_start():
-    if platform.system() == "Windows":
+    if system == "Windows":
         start_script_path = root_path / "start.bat"
         start_script = f"""cd \"{root_path.absolute()}\"
         pip install wheel -r requirements.txt --quiet
@@ -42,4 +44,5 @@ def generate_start():
 generate_config()
 generate_start()
 
-input("Нажмите любую клавишу...")
+if system == "Windows":
+    os.system("PAUSE")
