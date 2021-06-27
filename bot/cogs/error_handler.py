@@ -6,7 +6,7 @@ from .utils.base_cog import BaseCog
 from ..context import BotContext
 
 
-class ErrorHandlerCog(BaseCog):
+class ErrorHandler(BaseCog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx: BotContext, error: commands.CommandError):
         if isinstance(
@@ -26,4 +26,4 @@ class ErrorHandlerCog(BaseCog):
 
 
 def setup(bot):
-    bot.add_cog(ErrorHandlerCog(bot))
+    bot.add_cog(ErrorHandler(bot))
