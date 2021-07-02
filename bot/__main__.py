@@ -1,6 +1,9 @@
 import os
+import re
 import argparse
 import logging
+
+from pathlib import Path
 
 from bot import root_path
 from . import config
@@ -13,29 +16,24 @@ logging.basicConfig(
 )
 
 
-def load_extensions():
-    cogs_path = root_path / "bot/cogs"
+def get_all_extensions(cogs_path: Path):
     ext_paths = (
         p for p in cogs_path.glob("*.py") if p.is_file() and not p.name.startswith("_")
     )
     return [f"bot.cogs.{p.stem}" for p in ext_paths]
 
 
-def run_bot():
-    bot = Bot()
-
-    for ext in load_extensions():
-        bot.load_extension(ext)
-
-    bot.run()
+def cog_path_from_name(cogs_path: Path, cog_name: str) -> Path:
+    name_words = re.findall("[A-Z][^A-Z]*", cog_name)
+    cog_filename = "_".join(map(str.lower, name_words)) + ".py"
+    return cogs_path / cog_filename
 
 
-def create_cog(cog_name: str):
-    cogs_path = root_path / "bot/cogs"
-    cog_path = cogs_path / f"{cog_name.lower()}.py"
+def create_cog(cogs_path: Path, cog_name: str) -> Path:
+    cog_path = cog_path_from_name(cogs_path, cog_name)
 
     if cog_path.exists():
-        return
+        return cog_path
 
     cog_code = f"""import discord
 
@@ -59,20 +57,26 @@ def main():
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument("--cog")
     arg_parser.add_argument(
-        "--move", action="store_true", default=False, required=False
+        "--jump", action="store_true", default=False, required=False
     )
     args = arg_parser.parse_args()
 
+    cogs_path = root_path / "bot/cogs"
+
     if args.cog:
-        cog_path = create_cog(args.cog)
+        cog_path = create_cog(cogs_path, args.cog)
 
-        if cog_path is None and not args.move:
-            return print(f"Cog {args.cog} is already created.")
+        if args.jump:
+            os.system(f"code {cog_path.absolute()}")
 
-        if args.move:
-            return os.system(f"code {cog_path.absolute()}")
+        return
 
-    run_bot()
+    bot = Bot()
+
+    for ext in get_all_extensions(cogs_path):
+        bot.load_extension(ext)
+
+    bot.run()
 
 
 main()
