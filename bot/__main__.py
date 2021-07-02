@@ -55,9 +55,9 @@ def setup(bot):
 
 def main():
     arg_parser = argparse.ArgumentParser()
-    arg_parser.add_argument("--cog")
+    arg_parser.add_argument("--cog", help="Name of the cog to create")
     arg_parser.add_argument(
-        "--jump", action="store_true", default=False, required=False
+        "--jump", action="store_true", help="Jump to cog file (VSCode only)"
     )
     args = arg_parser.parse_args()
 
@@ -80,3 +80,10 @@ def main():
 
 
 main()
+
+
+# TODO:
+# - make separate orm branch
+# - make cooldown branch
+# - make owner branch
+# - make basic_converters branch
