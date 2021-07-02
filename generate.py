@@ -3,46 +3,63 @@ import platform
 
 from pathlib import Path
 
-root_path = Path(__file__).parent
-system = platform.system()
+from bot import root_path
 
 
-def generate_config():
+def create_config() -> Path:
     config_path = root_path / "bot/config.py"
-    config_example_path = root_path / "bot/config_example.py"
+    config_template_path = root_path / "bot/config_template.py"
 
-    if not config_example_path.exists():
-        return print("Не удалось найти файл шаблона конфига.")
+    if not config_template_path.exists():
+        raise Exception(
+            f"Не удалось найти файл шаблона конфига -> {config_template_path.absolute()}"
+        )
 
-    if not config_path.exists():
-        example_text = config_example_path.read_text("utf-8")
-        config_path.touch()
-        config_path.write_text(example_text, "utf-8")
+    if config_path.exists():
+        raise Exception(f"Конфиг уже создан -> {config_path.absolute()}")
 
-    print(f"Конфиг успешно создан. Заполните его -> {config_path.resolve()}")
+    example_text = config_template_path.read_text("utf-8")
+    config_path.write_text(example_text, "utf-8")
+    return config_path
 
 
-def generate_start():
-    if system == "Windows":
-        start_script_path = root_path / "start.bat"
-        start_script = f"""cd \"{root_path.absolute()}\"
-        pip install wheel -r requirements.txt --quiet
-        python -m bot
-        """
+def create_start_script_file(source_script_path: Path, windows: bool = False) -> Path:
+    source_script = source_script_path.read_text(encoding="utf-8")
+
+    if windows:
+        new_script = f"cd /D {root_path.absolute()}\n{source_script}"
     else:
-        start_script_path = root_path / "start.sh"
-        start_script = f"""cd \"{root_path.absolute()}\"
-        python3 -m "pip" install -U wheel -r requirements.txt --quiet
-        python3 -m bot
-        """
+        new_script = f"cd {root_path.absolute()}\n{source_script}"
 
-    start_script_path.touch()
-    start_script_path.write_text("\n".join(map(str.strip, start_script.splitlines())))
-    print(f"Скрипт старта успешно создан -> {start_script_path.resolve()}")
+    new_script_path = root_path / source_script_path.name
+    new_script_path.write_text(new_script)
+    return new_script_path
 
 
-generate_config()
-generate_start()
+def create_start_script(windows: bool):
+    if windows:
+        return create_start_script_file(root_path / "scripts/start.bat", windows)
 
-if system == "Windows":
-    os.system("PAUSE")
+    return create_start_script_file(root_path / "scripts/start.sh", windows)
+
+
+def main():
+    try:
+        config_path = create_config()
+    except Exception as e:
+        print(e)
+    else:
+        print(f"Конфиг успешно создан. Заполните его -> {config_path.absolute()}")
+
+    current_os = platform.system()
+    is_on_windows = current_os == "Windows"
+    start_script_path = create_start_script(is_on_windows)
+
+    print(f"Скрипт запуска успешно создан -> {start_script_path.absolute()}")
+
+    if is_on_windows:
+        os.system("pause")
+
+
+if __name__ == "__main__":
+    main()
