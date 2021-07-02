@@ -23,7 +23,9 @@ def create_config() -> Path:
     return config_path
 
 
-def create_start_script_file(source_script_path: Path, windows: bool = False) -> Path:
+def create_start_script_file(
+    source_script_path: Path, *, windows: bool = False
+) -> Path:
     source_script = source_script_path.read_text(encoding="utf-8")
 
     if windows:
@@ -36,11 +38,13 @@ def create_start_script_file(source_script_path: Path, windows: bool = False) ->
     return new_script_path
 
 
-def create_start_script(windows: bool):
+def create_start_script(*, windows: bool):
     if windows:
-        return create_start_script_file(root_path / "scripts/start.bat", windows)
+        return create_start_script_file(
+            root_path / "scripts/start.bat", windows=windows
+        )
 
-    return create_start_script_file(root_path / "scripts/start.sh", windows)
+    return create_start_script_file(root_path / "scripts/start.sh")
 
 
 def main():
@@ -53,7 +57,7 @@ def main():
 
     current_os = platform.system()
     is_on_windows = current_os == "Windows"
-    start_script_path = create_start_script(is_on_windows)
+    start_script_path = create_start_script(windows=is_on_windows)
 
     print(f"Скрипт запуска успешно создан -> {start_script_path.absolute()}")
 
