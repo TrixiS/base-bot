@@ -11,3 +11,10 @@ int_not_in_range: str = (
 invalid_enum_value: str = (
     "Вместо **{argument}** необходимо указать одно из значений: {values}"
 )
+missing_permissions: str = (
+    "Чтобы использовать эту команду, вам нужны разрешения: {permissions}"
+)
+bot_missions_permissions: str = "Чтобы исполнить эту команду, у {bot.user.mention} должны быть разрешения: {permissions}"
+
+# Moderation
+deleted_messages: str = "Удалено **{deleted}/{amount}** сообщений"
