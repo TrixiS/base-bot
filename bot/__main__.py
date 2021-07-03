@@ -39,6 +39,7 @@ def create_cog(cogs_path: Path, cog_name: str) -> Path:
 
 from discord.ext import commands
 
+from bot.context import BotContext
 from .utils.base_cog import BaseCog
 
 
