@@ -81,10 +81,3 @@ def main():
 
 
 main()
-
-
-# TODO:
-# - make separate orm branch
-# - make cooldown branch
-# - make owner branch
-# - make basic_converters branch
