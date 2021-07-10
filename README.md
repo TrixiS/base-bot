@@ -1,21 +1,21 @@
 # Discord
-1. Создайте приложение https://discord.com/developers
-2. Создайте бота (вкладка "Bot") в этом приложении
-3. Включите вот эти галочки -> https://i.imgur.com/U9SJOvR.png
-4. Пригласите бота на сервер через ссылку (галочки обязательны) -> https://i.imgur.com/Act9cOq.png
-5. Скопируйте токен бота (вкладка "Bot")
+1. Create an application -> https://discord.com/developers
+2. Create a bot ("Bot" in menu) in your application
+3. Turn on these check boxes -> https://i.imgur.com/U9SJOvR.png
+4. Invite your bot using this link (check marks are required) -> https://i.imgur.com/Act9cOq.png
+5. Copy bot token ("Bot" in menu)
 
-# Установка: Windows
-1. Установите Python3.8+ https://python.org (галочка "Add to PATH" обязательна)
-2. Распакуйте архив с ботом куда угодно
-3. Запустите файл generate.py двойным кликом по нему
-4. Заполните файл bot/config.py своими данными
-5. Запустите файл start.bat двойным кликом по нему
+# Installation: Windows
+1. Install Python3.8+ https://python.org (check mark "Add to PATH" is required)
+2. Unpack archive with the code
+3. Double click the generate.py file
+4. Fill up bot/config.py with your data
+5. Double click the start.bat file
 
-# Установка: *nix
-1. Пропишите команду python3 --version, если версия Python ниже 3.8, то установите или обновите Python к версии 3.8 или выше
-2. Распакуйте архив с ботом куда угодно
-3. Пропишите команду cd <директория с кодом>
-4. Пропишите команду python3 generate.py
-5. Заполните файл bot/config.py своими данными
-6. Пропишите команду source start.sh
+# Installation: *nix
+1. Use python3 --version, if the Python3 version is less than 3.8, install 3.8 version or above
+2. Unpack archive with the code
+3. Use cd command with the code directory
+4. Use python3 generate.py
+5. Fill up bot/config.py with your data
+6. Use source start.sh
