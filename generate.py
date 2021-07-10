@@ -12,11 +12,11 @@ def create_config() -> Path:
 
     if not config_template_path.exists():
         raise Exception(
-            f"Не удалось найти файл шаблона конфига -> {config_template_path.absolute()}"
+            f"Could not find config template file -> {config_template_path.absolute()}"
         )
 
     if config_path.exists():
-        raise Exception(f"Конфиг уже создан -> {config_path.absolute()}")
+        raise Exception(f"Config is already created -> {config_path.absolute()}")
 
     example_text = config_template_path.read_text("utf-8")
     config_path.write_text(example_text, "utf-8")
@@ -53,13 +53,13 @@ def main():
     except Exception as e:
         print(e)
     else:
-        print(f"Конфиг успешно создан. Заполните его -> {config_path.absolute()}")
+        print(f"Config has been created. Fill it up! -> {config_path.absolute()}")
 
     current_os = platform.system()
     is_on_windows = current_os == "Windows"
     start_script_path = create_start_script(windows=is_on_windows)
 
-    print(f"Скрипт запуска успешно создан -> {start_script_path.absolute()}")
+    print(f"Startup script has been created -> {start_script_path.absolute()}")
 
     if is_on_windows:
         os.system("pause")

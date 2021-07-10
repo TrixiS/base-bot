@@ -7,7 +7,7 @@ import discord
 from discord.ext import commands
 
 from . import config
-from .phrases import ru
+from .phrases import en
 from .context import BotContext
 
 
@@ -23,8 +23,8 @@ class Bot(commands.AutoShardedBot):
         return config
 
     @property
-    def phrases(self) -> ru:
-        return ru
+    def phrases(self) -> en:
+        return en
 
     def run(self):
         super().run(self.config.bot_token, bot=True)

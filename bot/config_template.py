@@ -1,9 +1,9 @@
-# Токен бота из https://discord.com/developers
+# Bot token from https://discord.com/developers
 bot_token: str = ""
 
-# Префиксы команд бота
+# Bot command prefixes
 command_prefixes: list = ["!", "!!"]
 
 
-# Системные переменные
+# System variables
 debug: bool = False
