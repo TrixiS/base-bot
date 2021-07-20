@@ -26,7 +26,7 @@ def db_cooldown(rate: int, per: int):
         )
 
         if bucket is None:
-            await CooldownBucket.create(
+            bucket = await CooldownBucket.create(
                 guild_id=ctx.guild.id,
                 member_id=ctx.author.id,
                 command_name=ctx.command.qualified_name,
