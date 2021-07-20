@@ -16,6 +16,9 @@ def db_cooldown(rate: int, per: int):
     async def predicate(ctx: BotContext) -> bool:
         ctx.command.db_cooldown = True
 
+        if ctx.invoked_with == "help":
+            return True
+
         bucket = await CooldownBucket.get_or_none(
             guild_id=ctx.guild.id,
             member_id=ctx.author.id,
@@ -28,8 +31,6 @@ def db_cooldown(rate: int, per: int):
                 member_id=ctx.author.id,
                 command_name=ctx.command.qualified_name,
             )
-
-            return True
 
         now = dt.datetime.now()
 
