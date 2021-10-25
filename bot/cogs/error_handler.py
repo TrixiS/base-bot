@@ -3,6 +3,7 @@ import datetime as dt
 
 import pytz
 
+from tortoise.expressions import F
 from discord.ext import commands
 
 from .utils.base_cog import BaseCog
@@ -13,31 +14,32 @@ from ..context import BotContext
 
 class ErrorHandler(BaseCog):
     async def remove_cooldown_use(self, ctx: BotContext, command: commands.Command):
-        bucket = await CooldownBucket.get_or_none(
+        await CooldownBucket.filter(
             guild_id=ctx.guild.id,
             member_id=ctx.author.id,
             command_name=command.qualified_name,
-        )
-
-        if bucket is None or bucket.uses == 0:
-            return
-
-        bucket.uses = bucket.uses - 1
-        await bucket.save()
+            uses__gt=0,
+        ).update(uses=F("uses") - 1)
 
     def format_cooldown(self, ctx: BotContext, window: dt.datetime) -> str:
-        now = dt.datetime.now()
+        now = dt.datetime.utcnow()
         delta = window.replace(tzinfo=pytz.UTC) - now.replace(tzinfo=pytz.UTC)
         total_seconds = delta.total_seconds()
 
-        if total_seconds < 60:
-            fmt = ctx.phrases.cooldown_seconds_fmt
-        elif window.day > now.day:
-            fmt = ctx.phrases.cooldown_date_fmt
-        else:
-            fmt = ctx.phrases.cooldown_minutes_fmt
+        minutes, seconds = map(int, divmod(total_seconds, 60))
+        hours, minutes = map(int, divmod(minutes, 60))
+        days, hours = map(int, divmod(hours, 24))
 
-        return window.strftime(fmt)
+        if days > 0:
+            fmt = ctx.phrases.cooldown.cooldown_days_fmt
+        elif hours > 0:
+            fmt = ctx.phrases.cooldown.cooldown_hours_fmt
+        elif minutes > 0:
+            fmt = ctx.phrases.cooldown.cooldown_minutes_fmt
+        else:
+            fmt = ctx.phrases.cooldown.cooldown_seconds_fmt
+
+        return fmt.format(seconds=seconds, minutes=minutes, hours=hours, days=days)
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx: BotContext, error: commands.CommandError):
@@ -49,7 +51,7 @@ class ErrorHandler(BaseCog):
                 commands.CheckFailure,
             ),
         ):
-            if hasattr(ctx.command, "db_cooldown") and ctx.command.db_cooldown:
+            if getattr(ctx.command, "__db_cooldown__", False):
                 await self.remove_cooldown_use(ctx, ctx.command)
 
             return await ctx.answer(str(error))
@@ -58,11 +60,11 @@ class ErrorHandler(BaseCog):
             retry_datetime = (
                 error.retry_after
                 if isinstance(error, OnDbCooldown)
-                else dt.datetime.now() + dt.timedelta(seconds=error.retry_after)
+                else dt.datetime.utcnow() + dt.timedelta(seconds=error.retry_after)
             )
 
             return await ctx.answer(
-                ctx.phrases.on_cooldown.format(
+                ctx.phrases.errors.on_cooldown.format(
                     date=self.format_cooldown(ctx, retry_datetime)
                 )
             )

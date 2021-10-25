@@ -2,7 +2,6 @@ from tortoise import Model, fields
 
 
 class CooldownBucket(Model):
-
     command_name = fields.TextField()
     guild_id = fields.IntField()
     member_id = fields.IntField()

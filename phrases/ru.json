@@ -1,5 +1,14 @@
 {
   "default": {
     "bot_started": "Бот {bot.user} успешно запущен"
+  },
+  "errors": {
+    "on_cooldown": "Команда на кулдауне. Попробуйте снова **{date}**"
+  },
+  "cooldown": {
+    "cooldown_seconds_fmt": "через {seconds}с",
+    "cooldown_minutes_fmt": "через {minutes}м {seconds}с",
+    "cooldown_hours_fmt": "через {hours}ч {minutes}м",
+    "cooldown_days_fmt": "через {days}д {hours}ч"
   }
 }
