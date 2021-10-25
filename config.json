@@ -1,4 +1,7 @@
 {
   "bot_token": "Токен бота из https://discord.com/developers",
-  "command_prefix": "!"
+  "command_prefix": "!",
+  "database": {
+    "database_url": "sqlite://{sqlite_path}"
+  }
 }

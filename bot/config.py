@@ -1,5 +1,10 @@
-from . import root_path
 from pydantic import BaseModel, Field
+
+from . import root_path
+
+
+class OrmConfig(BaseModel):
+    database_url: str = Field("sqlite://{sqlite_path}")
 
 
 class BotConfig(BaseModel):
@@ -7,6 +12,7 @@ class BotConfig(BaseModel):
 
     bot_token: str = Field("Токен бота из https://discord.com/developers")
     command_prefix: str = Field("!")
+    database: OrmConfig = Field(OrmConfig())
 
     @classmethod
     def load_any(cls):
