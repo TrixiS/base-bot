@@ -1,0 +1,4 @@
+{
+  "bot_token": "Токен бота из https://discord.com/developers",
+  "command_prefix": "!"
+}

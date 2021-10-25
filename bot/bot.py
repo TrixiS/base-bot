@@ -6,25 +6,31 @@ import discord
 
 from discord.ext import commands
 
-from . import config
-from .phrases import ru
+from .phrases import BotPhrases
+from .config import BotConfig
 from .context import BotContext
 
 
 class Bot(commands.AutoShardedBot):
-    def __init__(self):
+    def __init__(self, config: BotConfig, phrases: List[BotPhrases]):
         super().__init__(
             command_prefix=get_command_prefix, intents=discord.Intents.all()
         )
         self.logger = logging.getLogger("bot")
+        self.config = config
+        self.phrases = phrases
 
     @property
-    def config(self) -> config:
-        return config
+    def default_phrases(self) -> BotPhrases:
+        default_language: str = getattr(self.config, "default_language", "ru")
+        phrases = discord.utils.find(
+            lambda p: p.__lang_code__ == default_language, self.phrases
+        )
 
-    @property
-    def phrases(self) -> ru:
-        return ru
+        if phrases is None:
+            return self.phrases[0]
+
+        return phrases
 
     def run(self):
         super().run(self.config.bot_token, bot=True)
@@ -35,8 +41,11 @@ class Bot(commands.AutoShardedBot):
 
         await super().close()
 
+    async def get_context(self, message: discord.Message) -> BotContext:
+        return await super().get_context(message, cls=BotContext)
+
     async def process_commands(self, message: discord.Message):
-        ctx: BotContext = await self.get_context(message, cls=BotContext)
+        ctx = await self.get_context(message)
 
         if ctx.command is None:
             return
@@ -50,8 +59,8 @@ class Bot(commands.AutoShardedBot):
         await self.process_commands(message)
 
     async def on_ready(self):
-        print(self.phrases.bot_started.format(bot=self))
+        print(self.default_phrases.default.bot_started.format(bot=self))
 
 
 async def get_command_prefix(bot: Bot, message: discord.Message) -> List[str]:
-    return bot.config.command_prefixes
+    return bot.config.command_prefix

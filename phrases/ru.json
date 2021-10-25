@@ -1,0 +1,5 @@
+{
+  "default": {
+    "bot_started": "Бот {bot.user} успешно запущен"
+  }
+}
