@@ -10,7 +10,7 @@ class BotContext(commands.Context):
         super().__init__(**attrs)
         self.bot: bot.Bot
         self.message: discord.Message
-        self.phrases = self.bot.phrases
+        self.phrases = self.bot.default_phrases
 
     async def answer(self, *args, **kwargs) -> discord.Message:
         ref = self.message.to_reference(fail_if_not_exists=False)
