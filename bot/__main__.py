@@ -5,15 +5,12 @@ import logging
 
 from pathlib import Path
 
-from bot import root_path
-from . import config
-from .bot import Bot
+import update
 
-logging.basicConfig(
-    filename=None if config.debug else root_path / "logs.log",
-    level=logging.WARNING if config.debug else logging.ERROR,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(filename)s - %(lineno)d - %(message)s",
-)
+from bot import root_path
+from .bot import Bot
+from .config import BotConfig
+from .phrases import BotPhrases
 
 
 def get_all_extensions(cogs_path: Path):
@@ -56,7 +53,7 @@ def setup(bot):
 
 def main():
     arg_parser = argparse.ArgumentParser()
-    arg_parser.add_argument("--cog", help="Name of the cog to create")
+    arg_parser.add_argument("--cog", help="Name of a cog to create")
     arg_parser.add_argument(
         "--jump", action="store_true", help="Jump to cog file (VSCode only)"
     )
@@ -72,7 +69,19 @@ def main():
 
         return
 
-    bot = Bot()
+    update.main()
+    config = BotConfig.load_any()
+    phrases = BotPhrases.load_all()
+
+    debug: bool = getattr(config, "debug", False)
+
+    logging.basicConfig(
+        filename=None if debug else root_path / "logs.log",
+        level=logging.WARNING if debug else logging.ERROR,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(filename)s - %(lineno)d - %(message)s",
+    )
+
+    bot = Bot(config, phrases)
 
     for ext in get_all_extensions(cogs_path):
         bot.load_extension(ext)
@@ -81,10 +90,3 @@ def main():
 
 
 main()
-
-
-# TODO:
-# - make separate orm branch
-# - make cooldown branch
-# - make owner branch
-# - make basic_converters branch
