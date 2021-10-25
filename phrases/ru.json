@@ -1,5 +1,14 @@
 {
   "default": {
     "bot_started": "Бот {bot.user} успешно запущен"
+  },
+  "errors": {
+    "cant_use": "Вы не можете использовать эту команду"
+  },
+  "owner": {
+    "ext_loaded": "{ext} успешно загружено",
+    "ext_unloaded": "{ext} успешно выгружено",
+    "ext_reloaded": "{ext} успешно перезагружено",
+    "bot_close": "{bot.user.name} выключается"
   }
 }

@@ -23,7 +23,7 @@ def is_owner():
             if team_member is not None:
                 return True
 
-        raise commands.CheckFailure(ctx.phrases.cant_use)
+        raise commands.CheckFailure(ctx.phrases.errors.cant_use)
 
     return commands.check(predicate)
 
@@ -44,19 +44,19 @@ class Owner(BaseCog):
     @commands.command()
     async def load(self, ctx: BotContext, ext: str):
         self.bot.load_extension(ext)
-        await ctx.answer(ctx.phrases.ext_loaded.format(ext=ext))
+        await ctx.answer(ctx.phrases.owner.ext_loaded.format(ext=ext))
 
     @is_owner()
     @commands.command()
     async def unload(self, ctx: BotContext, ext: str):
         self.bot.unload_extension(ext)
-        await ctx.answer(ctx.phrases.ext_unloaded.format(ext=ext))
+        await ctx.answer(ctx.phrases.owner.ext_unloaded.format(ext=ext))
 
     @is_owner()
     @commands.command()
     async def reload(self, ctx: BotContext, ext: str):
         self.bot.reload_extension(ext)
-        await ctx.answer(ctx.phrases.ext_reloaded.format(ext=ext))
+        await ctx.answer(ctx.phrases.owner.ext_reloaded.format(ext=ext))
 
     @is_owner()
     @commands.command()
@@ -93,7 +93,7 @@ class Owner(BaseCog):
     @is_owner()
     @commands.command()
     async def kill(self, ctx: BotContext):
-        await ctx.answer(ctx.phrases.bot_close.format(bot=ctx.bot))
+        await ctx.answer(ctx.phrases.owner.bot_close.format(bot=ctx.bot))
         await self.bot.close()
 
 
