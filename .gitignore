@@ -1,8 +1,8 @@
 # Custom
 *.sqlite*
-bot/config.py
 /*.bat
 /*.sh
+config_dev.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
