@@ -9,16 +9,20 @@ from discord.ext import commands
 from bot.context import BotContext
 
 
-def safe_argument(argument: str) -> str:
-    placeholder = f"{argument[:3]}..."
-    return textwrap.shorten(argument, width=len(placeholder), placeholder=placeholder)
-
-
 class SafeBadArgument(commands.BadArgument):
+    def format_argument(self, argument: str) -> str:
+        placeholder = f"{argument[:3]}..."
+        return textwrap.shorten(
+            argument, width=len(placeholder), placeholder=placeholder
+        )
+
     def __init__(self, message: str, argument: str, *args, **fmt_kwargs):
         super().__init__(
             *args,
-            message=message.format(argument=safe_argument(argument), **fmt_kwargs),
+            message=message.format(
+                argument=self.format_argument(argument),
+                **fmt_kwargs,
+            ),
         )
 
 
@@ -27,7 +31,7 @@ class NotAuthor(commands.MemberConverter):
         member = await super().convert(ctx, argument)
 
         if member == ctx.author:
-            raise commands.BadArgument(ctx.phrases.not_author)
+            raise commands.BadArgument(ctx.phrases.errors.not_author)
 
         return member
 
@@ -37,7 +41,7 @@ class IntConverter(commands.Converter):
         try:
             return int(argument)
         except ValueError:
-            raise SafeBadArgument(ctx.phrases.invalid_int, argument)
+            raise SafeBadArgument(ctx.phrases.errors.invalid_int, argument)
 
 
 class RangedIntConverter(IntConverter):
@@ -62,7 +66,7 @@ class RangedIntConverter(IntConverter):
             return number
 
         raise SafeBadArgument(
-            ctx.phrases.int_not_in_range,
+            ctx.phrases.errors.int_not_in_range,
             argument,
             range=range(self.argument_range.start, self.argument_range.stop - 1),
         )
@@ -87,7 +91,7 @@ class EnumConverter(commands.Converter):
         )
 
         raise SafeBadArgument(
-            ctx.phrases.invalid_enum_value,
+            ctx.phrases.errors.invalid_enum_value,
             argument,
             values=" | ".join(f"`{v}`" for v in values),
         )

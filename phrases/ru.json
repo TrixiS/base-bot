@@ -1,5 +1,12 @@
 {
   "default": {
     "bot_started": "Бот {bot.user} успешно запущен"
+  },
+  "errors": {
+    "not_author": "Вы не можете использовать эту команду на себя",
+    "cant_use": "Вы не можете использовать эту команду",
+    "invalid_int": "Вы ввели неверное число - **{argument}**",
+    "int_not_in_range": "Число **{argument}** не находится в диапазоне **{range.start}-{range.stop}**",
+    "invalid_enum_value": "Вместо **{argument}** необходимо указать одно из значений: {values}"
   }
 }
