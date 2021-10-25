@@ -5,6 +5,8 @@ import logging
 
 from pathlib import Path
 
+import update
+
 from bot import root_path
 from .bot import Bot
 from .config import BotConfig
@@ -67,6 +69,7 @@ def main():
 
         return
 
+    update.main()
     config = BotConfig.load_any()
     phrases = BotPhrases.load_all()
 
