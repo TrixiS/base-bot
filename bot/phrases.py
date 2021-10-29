@@ -1,5 +1,3 @@
-import json
-
 from typing import List
 
 from pydantic import BaseModel, Field
@@ -34,11 +32,7 @@ class BotPhrases(BaseModel):
         parsed_phrases: List[BotPhrases] = []
 
         for phrases_path in phrases_dir.glob("*.json"):
-            try:
-                phrases = BotPhrases.parse_file(phrases_path)
-            except json.decoder.JSONDecodeError:
-                continue
-
+            phrases = BotPhrases.parse_file(phrases_path)
             parsed_phrases.append(phrases)
 
         return parsed_phrases
