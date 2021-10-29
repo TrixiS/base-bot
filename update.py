@@ -1,5 +1,3 @@
-import json
-
 from pathlib import Path
 
 from bot import root_path
@@ -12,10 +10,7 @@ def update_phrases_file_from_model(path: Path, model_cls: BaseModel):
     if not path.exists():
         return
 
-    try:
-        model_object = model_cls.parse_file(path)
-    except json.decoder.JSONDecodeError:
-        model_object = model_cls()
+    model_object = model_cls.parse_file(path)
 
     with open(path, "w", encoding="utf-8") as f:
         json_string = model_object.json(indent=2, ensure_ascii=False)
