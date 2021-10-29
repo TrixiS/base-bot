@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 
 from pydantic import BaseModel, Field
 
@@ -15,10 +15,14 @@ class ErrorPhrases(BaseModel):
     invalid_enum_value: str = Field(
         "Вместо **{argument}** необходимо указать одно из значений: {values}"
     )
+    invalid_time: str = Field("Необходимо ввести время в формате 1д/5ч/3м/15с")
 
 
 class DefaultPhrases(BaseModel):
     bot_started: str = Field("Бот {bot.user} успешно запущен")
+    time_map: Dict[str, float] = Field(
+        {"с": 1, "м": 60, "ч": 60 * 60, "д": 24 * 60 * 60}
+    )
 
 
 class BotPhrases(BaseModel):

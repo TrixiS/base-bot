@@ -1,6 +1,7 @@
 import textwrap
 
 from enum import Enum
+from dataclasses import dataclass
 
 import discord
 
@@ -95,3 +96,33 @@ class EnumConverter(commands.Converter):
             argument,
             values=" | ".join(f"`{v}`" for v in values),
         )
+
+
+class TimeConverter(commands.Converter):
+    seconds: int
+    argument: str
+
+    @dataclass
+    class Time:
+        seconds: int
+        argument: str
+
+    async def convert(self, ctx: BotContext, argument: str):
+        argument = argument.lower()
+        seconds: int = None
+
+        for unit, unit_value in ctx.phrases.default.time_map.items():
+            if not argument.endswith(unit):
+                continue
+
+            argument_value = argument.rstrip(unit)
+
+            if not argument_value.isdigit():
+                continue
+
+            seconds = int(argument_value) * unit_value
+
+        if not seconds:
+            raise commands.BadArgument(ctx.phrases.errors.invalid_time)
+
+        return self.Time(seconds, argument)

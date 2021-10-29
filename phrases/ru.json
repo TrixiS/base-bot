@@ -1,12 +1,19 @@
 {
   "default": {
-    "bot_started": "Бот {bot.user} успешно запущен"
+    "bot_started": "Бот {bot.user} успешно запущен",
+    "time_map": {
+      "с": 1,
+      "м": 60,
+      "ч": 3600,
+      "д": 86400
+    }
   },
   "errors": {
     "not_author": "Вы не можете использовать эту команду на себя",
     "cant_use": "Вы не можете использовать эту команду",
     "invalid_int": "Вы ввели неверное число - **{argument}**",
     "int_not_in_range": "Число **{argument}** не находится в диапазоне **{range.start}-{range.stop}**",
-    "invalid_enum_value": "Вместо **{argument}** необходимо указать одно из значений: {values}"
+    "invalid_enum_value": "Вместо **{argument}** необходимо указать одно из значений: {values}",
+    "invalid_time": "Необходимо ввести время в формате 1д/5ч/3м/15с"
   }
 }
