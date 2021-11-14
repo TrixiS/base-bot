@@ -70,11 +70,9 @@ def main():
     config = BotConfig.load_any()
     phrases = BotPhrases.load_all()
 
-    debug: bool = getattr(config, "debug", False)
-
     logging.basicConfig(
-        filename=None if debug else root_path / "logs.log",
-        level=logging.WARNING if debug else logging.ERROR,
+        filename="logs.log",
+        level=logging.ERROR,
         format="%(asctime)s - %(name)s - %(levelname)s - %(filename)s - %(lineno)d - %(message)s",
     )
 
