@@ -5,8 +5,6 @@ import logging
 
 from pathlib import Path
 
-import update
-
 from bot import root_path
 from .bot import Bot
 from .config import BotConfig
@@ -32,9 +30,9 @@ def create_cog(cogs_path: Path, cog_name: str) -> Path:
     if cog_path.exists():
         return cog_path
 
-    cog_code = f"""import discord
+    cog_code = f"""import nextcord
 
-from discord.ext import commands
+from nextcord.ext import commands
 
 from bot.context import BotContext
 from .utils.base_cog import BaseCog
@@ -69,7 +67,6 @@ def main():
 
         return
 
-    update.main()
     config = BotConfig.load_any()
     phrases = BotPhrases.load_all()
 

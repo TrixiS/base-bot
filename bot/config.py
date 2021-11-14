@@ -1,5 +1,6 @@
-from . import root_path
 from pydantic import BaseModel, Field
+
+from . import root_path
 
 
 class BotConfig(BaseModel):

@@ -1,9 +1,10 @@
 from pathlib import Path
 
+from pydantic import BaseModel
+
 from bot import root_path
 from bot.config import BotConfig
 from bot.phrases import BotPhrases
-from pydantic import BaseModel
 
 
 def update_json_file_from_model(path: Path, model_cls: BaseModel):
@@ -11,10 +12,10 @@ def update_json_file_from_model(path: Path, model_cls: BaseModel):
         return
 
     model_object = model_cls.parse_file(path)
+    model_json = model_object.json(indent=2, ensure_ascii=False)
 
     with open(path, "w", encoding="utf-8") as f:
-        json_string = model_object.json(indent=2, ensure_ascii=False)
-        f.write(json_string)
+        f.write(model_json)
 
 
 def update_config_files():

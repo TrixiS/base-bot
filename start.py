@@ -3,9 +3,10 @@ import platform
 
 from pathlib import Path
 
+SYSTEM = platform.system()
+
 root_path = Path(__file__).parent
 os.chdir(str(root_path.absolute()))
-SYSTEM = platform.system()
 
 
 def install_dependencies():
@@ -30,8 +31,15 @@ def start_bot():
     os.system(start_command)
 
 
+def run_update():
+    import update
+
+    update.main()
+
+
 def main():
     install_dependencies()
+    run_update()
     start_bot()
 
     if SYSTEM == "Windows":
