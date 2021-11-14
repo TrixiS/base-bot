@@ -9,6 +9,7 @@ license = "MIT"
 python = "^3.8"
 nextcord = {extras = ["speedup"], version = "^2.0.0-alpha.3"}
 pydantic = "^1.8.2"
+tortoise-orm = "^0.17.8"
 
 [tool.poetry.dev-dependencies]
 
