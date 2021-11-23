@@ -1,14 +1,12 @@
 import logging
-
 from typing import List
 
 import nextcord
-
 from nextcord.ext import commands
 
-from .phrases import BotPhrases
 from .config import BotConfig
 from .context import BotContext
+from .phrases import BotPhrases
 
 
 class Bot(commands.AutoShardedBot):

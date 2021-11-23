@@ -1,11 +1,11 @@
-import os
-import re
 import argparse
 import logging
-
+import os
+import re
 from pathlib import Path
 
 from bot import root_path
+
 from .bot import Bot
 from .config import BotConfig
 from .phrases import BotPhrases
