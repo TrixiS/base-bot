@@ -3,9 +3,9 @@ import textwrap
 from enum import Enum
 from dataclasses import dataclass
 
-import discord
+import nextcord
 
-from discord.ext import commands
+from nextcord.ext import commands
 
 from bot.context import BotContext
 
@@ -28,7 +28,7 @@ class SafeBadArgument(commands.BadArgument):
 
 
 class NotAuthor(commands.MemberConverter):
-    async def convert(self, ctx: BotContext, argument: str) -> discord.Member:
+    async def convert(self, ctx: BotContext, argument: str) -> nextcord.Member:
         member = await super().convert(ctx, argument)
 
         if member == ctx.author:
