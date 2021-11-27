@@ -1,4 +1,8 @@
 {
   "bot_token": "Токен бота из https://discord.com/developers",
-  "command_prefix": "!"
+  "command_prefix": "!",
+  "status": {
+    "activity_type": "playing",
+    "status": "Default"
+  }
 }
