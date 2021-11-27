@@ -1,9 +1,9 @@
 import traceback
 
-from discord.ext import commands
+from nextcord.ext import commands
 
-from .utils.base_cog import BaseCog
 from ..context import BotContext
+from .utils.base_cog import BaseCog
 
 
 class ErrorHandler(BaseCog):

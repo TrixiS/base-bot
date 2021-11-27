@@ -1,19 +1,14 @@
-import os
-import re
 import argparse
 import logging
-
+import os
+import re
 from pathlib import Path
 
 from bot import root_path
-from . import config
-from .bot import Bot
 
-logging.basicConfig(
-    filename=None if config.debug else root_path / "logs.log",
-    level=logging.WARNING if config.debug else logging.ERROR,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(filename)s - %(lineno)d - %(message)s",
-)
+from .bot import Bot
+from .config import BotConfig
+from .phrases import BotPhrases
 
 
 def get_all_extensions(cogs_path: Path):
@@ -35,9 +30,9 @@ def create_cog(cogs_path: Path, cog_name: str) -> Path:
     if cog_path.exists():
         return cog_path
 
-    cog_code = f"""import discord
+    cog_code = f"""import nextcord
 
-from discord.ext import commands
+from nextcord.ext import commands
 
 from bot.context import BotContext
 from .utils.base_cog import BaseCog
@@ -56,7 +51,7 @@ def setup(bot):
 
 def main():
     arg_parser = argparse.ArgumentParser()
-    arg_parser.add_argument("--cog", help="Name of the cog to create")
+    arg_parser.add_argument("--cog", help="Name of a cog to create")
     arg_parser.add_argument(
         "--jump", action="store_true", help="Jump to cog file (VSCode only)"
     )
@@ -72,7 +67,16 @@ def main():
 
         return
 
-    bot = Bot()
+    config = BotConfig.load_any()
+    phrases = BotPhrases.load_all()
+
+    logging.basicConfig(
+        filename="logs.log",
+        level=logging.ERROR,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(filename)s - %(lineno)d - %(message)s",
+    )
+
+    bot = Bot(config, phrases)
 
     for ext in get_all_extensions(cogs_path):
         bot.load_extension(ext)
@@ -81,10 +85,3 @@ def main():
 
 
 main()
-
-
-# TODO:
-# - make separate orm branch
-# - make cooldown branch
-# - make owner branch
-# - make basic_converters branch
