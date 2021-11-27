@@ -1,11 +1,10 @@
 import ast
 
-import discord
+import nextcord
+from nextcord.ext import commands
 
-from discord.ext import commands
-
+from bot.context import BotContext
 from .utils.base_cog import BaseCog
-from ..context import BotContext
 
 
 def is_owner():
@@ -16,7 +15,7 @@ def is_owner():
         app = await ctx.bot.application_info()
 
         if app.team is not None:
-            team_member = discord.utils.find(
+            team_member = nextcord.utils.find(
                 lambda m: m.id == ctx.author.id, app.team.members
             )
 
@@ -75,8 +74,8 @@ class Owner(BaseCog):
 
         env = {
             "bot": ctx.bot,
-            "discord": discord,
-            "command": discord.ext.commands,
+            "nextcord": nextcord,
+            "command": nextcord.ext.commands,
             "ctx": ctx,
             "__import__": __import__,
             "__name__": __name__,
@@ -94,7 +93,7 @@ class Owner(BaseCog):
     @commands.command()
     async def kill(self, ctx: BotContext):
         await ctx.answer(ctx.phrases.owner.bot_close.format(bot=ctx.bot))
-        await self.bot.close()
+        await ctx.bot.close()
 
 
 def setup(bot):
