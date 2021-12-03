@@ -10,6 +10,9 @@ class Redis(BaseCog):
             **self.bot.config.redis.dict(), decode_responses=True
         )
 
+    async def on_shutdown(self):
+        await self.redis.close()
+
 
 def setup(bot):
     bot.add_cog(Redis(bot))
