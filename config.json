@@ -1,4 +1,10 @@
 {
   "bot_token": "Токен бота из https://discord.com/developers",
-  "command_prefix": "!"
+  "command_prefix": "!",
+  "redis": {
+    "host": "",
+    "port": 6379,
+    "password": "",
+    "db": 0
+  }
 }
