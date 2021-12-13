@@ -8,7 +8,7 @@ class Orm(BaseCog):
     def __init__(self, *args):
         super().__init__(*args)
 
-    async def on_bot_close(self):
+    async def on_shutdown(self):
         await Tortoise.close_connections()
 
     async def on_startup(self):
