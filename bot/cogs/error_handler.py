@@ -14,7 +14,6 @@ class ErrorHandler(BaseCog):
             (
                 commands.MissingRequiredArgument,
                 commands.BadArgument,
-                commands.CheckFailure,
             ),
         ):
             return await ctx.answer(str(error))
@@ -22,6 +21,7 @@ class ErrorHandler(BaseCog):
         formated_exc = traceback.format_exception(
             type(error), error, error.__traceback__
         )
+
         self.bot.logger.error("".join(formated_exc))
 
 
