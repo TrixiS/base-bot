@@ -1,6 +1,5 @@
-from tortoise import Tortoise
-
 from bot import root_path
+from tortoise import Tortoise
 
 from .utils.base_cog import BaseCog
 
