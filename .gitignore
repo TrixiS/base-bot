@@ -1,8 +1,7 @@
 # Custom
 *.sqlite*
-/*.bat
-/*.sh
 config_dev.json
+poetry.lock
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
