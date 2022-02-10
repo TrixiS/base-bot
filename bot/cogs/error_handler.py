@@ -2,8 +2,8 @@ import traceback
 
 from nextcord.ext import commands
 
-from .utils.base_cog import BaseCog
 from ..context import BotContext
+from .utils.base_cog import BaseCog
 
 
 class ErrorHandler(BaseCog):
@@ -14,7 +14,6 @@ class ErrorHandler(BaseCog):
             (
                 commands.MissingRequiredArgument,
                 commands.BadArgument,
-                commands.CheckFailure,
             ),
         ):
             return await ctx.answer(str(error))
@@ -22,6 +21,7 @@ class ErrorHandler(BaseCog):
         formated_exc = traceback.format_exception(
             type(error), error, error.__traceback__
         )
+
         self.bot.logger.error("".join(formated_exc))
 
 

@@ -1,14 +1,13 @@
+import asyncio
 import logging
-
 from typing import List
 
 import nextcord
-
 from nextcord.ext import commands
 
-from .phrases import BotPhrases
 from .config import BotConfig
 from .context import BotContext
+from .phrases import BotPhrases
 
 
 class Bot(commands.AutoShardedBot):
@@ -25,7 +24,7 @@ class Bot(commands.AutoShardedBot):
         return self.phrases[0]
 
     def run(self):
-        super().run(self.config.bot_token)
+        asyncio.run(self.start(self.config.bot_token))
 
     async def close(self):
         for cog in self.cogs.values():
