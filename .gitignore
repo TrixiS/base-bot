@@ -1,7 +1,7 @@
 # Custom
 *.sqlite*
 config_dev.json
-poetry.lock
+Pipfile.lock
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
