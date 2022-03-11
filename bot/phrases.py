@@ -9,12 +9,11 @@ class DefaultPhrases(BaseModel):
     bot_started: str = Field("Бот {bot.user} успешно запущен")
 
 
-class BotPhrases(BaseModel):
-    __lang_code__: str = None
+class BaseBotPhrases(BaseModel):
     default: DefaultPhrases = Field(DefaultPhrases())
 
-    @classmethod
-    def load_all(cls) -> List["BotPhrases"]:
+    @staticmethod
+    def load_all() -> List["BotPhrases"]:
         phrases_dir = root_path / "phrases"
         parsed_phrases: List[BotPhrases] = []
 
@@ -23,3 +22,7 @@ class BotPhrases(BaseModel):
             parsed_phrases.append(phrases)
 
         return parsed_phrases
+
+
+class BotPhrases(BaseBotPhrases):
+    ...

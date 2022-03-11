@@ -25,4 +25,4 @@ class BaseBotConfig(BaseModel):
 
 
 class BotConfig(BaseBotConfig):
-    pass
+    ...
