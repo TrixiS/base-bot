@@ -1,4 +1,3 @@
-import asyncio
 import logging
 from typing import List
 
@@ -24,7 +23,7 @@ class Bot(commands.AutoShardedBot):
         return self.phrases[0]
 
     def run(self):
-        asyncio.run(self.start(self.config.bot_token))
+        super().run(self.config.bot_token)
 
     async def close(self):
         for cog in self.cogs.values():
