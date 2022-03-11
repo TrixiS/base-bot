@@ -12,16 +12,19 @@ class DefaultPhrases(BaseModel):
 class BaseBotPhrases(BaseModel):
     default: DefaultPhrases = Field(DefaultPhrases())
 
-    @staticmethod
-    def load_all() -> List["BotPhrases"]:
-        phrases_dir = root_path / "phrases"
+    @classmethod
+    def load_all(cls) -> List["BotPhrases"]:
         parsed_phrases: List[BotPhrases] = []
 
-        for phrases_path in phrases_dir.glob("*.json"):
+        for phrases_path in cls.__phrases_filepaths__():
             phrases = BotPhrases.parse_file(phrases_path)
             parsed_phrases.append(phrases)
 
         return parsed_phrases
+
+    @classmethod
+    def __phrases_filepaths__(cls):
+        yield from (root_path / "phrases").glob("*.json")
 
 
 class BotPhrases(BaseBotPhrases):

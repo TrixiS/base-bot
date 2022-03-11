@@ -1,1 +1,1 @@
-(python -m pip install wheel -r requirements.txt --quiet && python update.py && python -m bot) || pause
+(python -m pip install -U wheel -r requirements.txt --quiet && python cli.py update && python -m bot) || pause

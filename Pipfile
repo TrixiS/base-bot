@@ -21,6 +21,7 @@ typing-extensions = "==3.10.0.2"
 yarl = "==1.7.2"
 
 [dev-packages]
+typer = "*"
 
 [requires]
 python_version = "3.8"
