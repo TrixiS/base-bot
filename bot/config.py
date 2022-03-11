@@ -4,24 +4,21 @@ from . import root_path
 
 
 class BaseBotConfig(BaseModel):
-    __dev_config_filenames__ = ("config_dev.json",)
-    __config_filenames__ = ("config.json",)
+    __config_filenames__ = ("_config_dev.json", "config.json")
 
     bot_token: str = Field("Токен бота из https://discord.com/developers")
     command_prefix: str = Field("!")
 
     @classmethod
     def load_any(cls):
-        all_config_filenames = (
-            *cls.__dev_config_filenames__,
-            *cls.__config_filenames__,
-        )
+        for filepath in cls.__config_filepaths__():
+            if filepath.exists():
+                return cls.parse_file(filepath)
 
-        for filename in all_config_filenames:
-            path = root_path / filename
-
-            if path.exists():
-                return cls.parse_file(path)
+    @classmethod
+    def __config_filepaths__(cls):
+        for filename in cls.__config_filenames__:
+            yield root_path / filename
 
 
 class OrmConfig(BaseModel):
