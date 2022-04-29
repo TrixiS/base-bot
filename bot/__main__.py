@@ -21,11 +21,7 @@ async def main():
     config = BotConfig.load_any()
     phrases = BotPhrases.load_all()
 
-    logging.basicConfig(
-        filename="logs.log",
-        level=logging.ERROR,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(filename)s - %(lineno)d - %(message)s",
-    )
+    logging.basicConfig(filename="logs.log", level=logging.ERROR)
 
     bot = Bot(config, phrases)
 

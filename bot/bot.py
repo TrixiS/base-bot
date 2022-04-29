@@ -1,4 +1,3 @@
-import logging
 from typing import List
 
 import discord
@@ -8,15 +7,12 @@ from .config import BotConfig
 from .context import BotContext
 from .phrases import BotPhrases
 
-# TODO: put logger into error_handler cog
-
 
 class Bot(commands.AutoShardedBot):
     def __init__(self, config: BotConfig, phrases: List[BotPhrases]):
         super().__init__(
             command_prefix=get_command_prefix, intents=discord.Intents.all()
         )
-        self.logger = logging.getLogger("bot")
         self.config = config
         self.phrases = phrases
 
