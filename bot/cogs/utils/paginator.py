@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 from typing import *
 
-import nextcord
-from nextcord import ui
-from nextcord.interactions import Interaction
+import discord
+from discord import ui
+from discord.interactions import Interaction
 
 from bot.context import BotContext
 
@@ -11,7 +11,7 @@ from bot.context import BotContext
 @dataclass
 class Page:
     content: str = None
-    embed: nextcord.Embed = None
+    embed: discord.Embed = None
 
 
 class BasePaginator:
@@ -35,7 +35,7 @@ class BasePaginator:
 
 
 class ValidatedButton(ui.Button):
-    def validate_interaction(self, interaction: nextcord.Interaction):
+    def validate_interaction(self, interaction: discord.Interaction):
         return True
 
     async def callback(self, interaction: Interaction):
@@ -53,12 +53,12 @@ class UserButton(ValidatedButton):
         super().__init__(*args, **kwargs)
         self.view: ArrowsView
 
-    def validate_interaction(self, interaction: nextcord.Interaction):
+    def validate_interaction(self, interaction: discord.Interaction):
         return interaction.user == self.view.user
 
 
 class PrevButton(UserButton):
-    async def validated_callback(self, interaction: nextcord.Interaction):
+    async def validated_callback(self, interaction: discord.Interaction):
         view: ArrowsView = self.view
         current_page = view.paginator.prev_page()
 
@@ -68,7 +68,7 @@ class PrevButton(UserButton):
 
 
 class NextButton(UserButton):
-    async def validated_callback(self, interaction: nextcord.Interaction):
+    async def validated_callback(self, interaction: discord.Interaction):
         view: ArrowsView = self.view
         current_page = view.paginator.next_page()
 
@@ -82,7 +82,7 @@ class ArrowsView(ui.View):
     ARROW_RIGHT = "➡️"
 
     def __init__(
-        self, paginator: "ButtonsPaginator", user: nextcord.User, *args, **kwargs
+        self, paginator: "ButtonsPaginator", user: discord.User, *args, **kwargs
     ):
         super().__init__(*args, **kwargs)
         self.user = user
