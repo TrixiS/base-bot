@@ -8,7 +8,6 @@ from .config import BotConfig
 from .context import BotContext
 from .phrases import BotPhrases
 
-# TODO: fix cog template
 # TODO: put logger into error_handler cog
 
 

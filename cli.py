@@ -88,11 +88,12 @@ def create_cog(cogs_dirpath: Path, cog_name: str) -> Path:
     if cog_path.exists():
         return cog_path
 
-    cog_code = f"""import nextcord
+    cog_code = f"""import discord
 
-from nextcord.ext import commands
+from discord.ext import commands
 
-from bot.context import BotContext
+from ..bot import Bot
+from ..context import BotContext
 from .utils.base_cog import BaseCog
 
 
@@ -100,8 +101,8 @@ class {cog_name}(BaseCog):
     pass
 
 
-def setup(bot):
-    bot.add_cog({cog_name}(bot))"""
+async def setup(bot: Bot):
+    await bot.add_cog({cog_name}(bot))"""
 
     cog_path.write_text(cog_code, encoding="utf-8")
     return cog_path
