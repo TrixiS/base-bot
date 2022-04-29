@@ -1,8 +1,7 @@
-import logging
 from typing import List
 
-import nextcord
-from nextcord.ext import commands
+import discord
+from discord.ext import commands
 
 from .config import BotConfig
 from .context import BotContext
@@ -12,9 +11,8 @@ from .phrases import BotPhrases
 class Bot(commands.AutoShardedBot):
     def __init__(self, config: BotConfig, phrases: List[BotPhrases]):
         super().__init__(
-            command_prefix=get_command_prefix, intents=nextcord.Intents.all()
+            command_prefix=get_command_prefix, intents=discord.Intents.all()
         )
-        self.logger = logging.getLogger("bot")
         self.config = config
         self.phrases = phrases
 
@@ -22,8 +20,11 @@ class Bot(commands.AutoShardedBot):
     def default_phrases(self) -> BotPhrases:
         return self.phrases[0]
 
-    def run(self):
-        super().run(self.config.bot_token)
+    async def start(self, token: str, *, reconnect: bool = True) -> None:
+        for cog in self.cogs.values():
+            await cog.on_startup()
+
+        await super().start(token=token, reconnect=reconnect)
 
     async def close(self):
         for cog in self.cogs.values():
@@ -31,10 +32,10 @@ class Bot(commands.AutoShardedBot):
 
         await super().close()
 
-    async def get_context(self, message: nextcord.Message) -> BotContext:
+    async def get_context(self, message: discord.Message) -> BotContext:
         return await super().get_context(message, cls=BotContext)
 
-    async def process_commands(self, message: nextcord.Message):
+    async def process_commands(self, message: discord.Message):
         ctx = await self.get_context(message)
 
         if ctx.command is None:
@@ -42,7 +43,7 @@ class Bot(commands.AutoShardedBot):
 
         await self.invoke(ctx)
 
-    async def on_message(self, message: nextcord.Message):
+    async def on_message(self, message: discord.Message):
         if message.author.bot:
             return
 
@@ -52,5 +53,5 @@ class Bot(commands.AutoShardedBot):
         print(self.default_phrases.default.bot_started.format(bot=self))
 
 
-async def get_command_prefix(bot: Bot, message: nextcord.Message) -> str:
+async def get_command_prefix(bot: Bot, message: discord.Message) -> str:
     return bot.config.command_prefix

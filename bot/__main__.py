@@ -1,3 +1,4 @@
+import asyncio
 import logging
 from pathlib import Path
 
@@ -16,22 +17,18 @@ def get_all_extensions(cogs_path: Path):
     return [f"bot.cogs.{p.stem}" for p in ext_paths]
 
 
-def main():
+async def main():
     config = BotConfig.load_any()
     phrases = BotPhrases.load_all()
 
-    logging.basicConfig(
-        filename="logs.log",
-        level=logging.ERROR,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(filename)s - %(lineno)d - %(message)s",
-    )
+    logging.basicConfig(filename="logs.log", level=logging.ERROR)
 
     bot = Bot(config, phrases)
 
     for ext in get_all_extensions(root_path / "bot/cogs"):
-        bot.load_extension(ext)
+        await bot.load_extension(ext)
 
-    bot.run()
+    await bot.start(bot.config.bot_token)
 
 
-main()
+asyncio.run(main())
